@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: bank-account-service
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:accountdb
+    username: sa
+    password: admin
+
+  jpa:
+    show-sql: true
+    defer-datasource-initialization: true
+  h2:
+    console:
+      enabled: true
+
+resilience4j:
+  retry:
+    instances:
+      exchange-client-config:
+        maxAttempts: 5
+        waitDuration: 1s
+        enableExponentialBackoff: true
+
+#ACTUATOR
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+
+server:
+  port: 8100
